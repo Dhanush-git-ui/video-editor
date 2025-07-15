@@ -7,6 +7,8 @@ import { Play, Pause, Volume2, VolumeX, ChevronDown } from "lucide-react";
 import { Monitor, Palette, Scissors } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import VideoGalleryShowcase from "./VideoGalleryShowcase";
+import { useNavigate } from 'react-router-dom';
 
 interface GlitchTextProps {
   text: string;
@@ -620,10 +622,10 @@ const CinematicPortfolio: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [hoveredName, setHoveredName] = useState(false);
-  const [showExplore, setShowExplore] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const navigate = useNavigate();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -883,7 +885,7 @@ const CinematicPortfolio: React.FC = () => {
                   transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                 >
                   <button
-                    onClick={() => setShowExplore(true)}
+                    onClick={() => navigate('/gallery')}
                     className="relative z-50 bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:from-red-700 hover:via-red-800 hover:to-red-900 text-white font-semibold text-lg tracking-wider px-14 py-4 rounded-xl shadow-2xl border-2 border-red-500/30 hover:border-red-400/50 transition-all duration-300 backdrop-blur-sm min-w-[240px] h-[60px] flex items-center justify-center"
                     style={{
                       background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)',
@@ -922,455 +924,382 @@ const CinematicPortfolio: React.FC = () => {
           </div>
 
           {/* Scroll Indicator */}
-          {!showExplore && (
-            <motion.div
-              className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: [0.4, 0, 0.6, 1] }}
-            >
-              <ChevronDown className="w-6 h-6 text-gray-400" />
-            </motion.div>
-          )}
+          <motion.div
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: [0.4, 0, 0.6, 1] }}
+          >
+            <ChevronDown className="w-6 h-6 text-gray-400" />
+          </motion.div>
         </main>
 
         {/* Explore Work Section */}
-        <AnimatePresence>
-          {showExplore && (
-            <motion.section
-              initial={{ opacity: 0, y: 100, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 100, scale: 0.95 }}
-              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-              className="relative z-20 bg-gradient-to-b from-black/95 to-gray-900/95 backdrop-blur-xl border-t border-red-500/20"
-            >
-              <div className="container mx-auto px-8 py-16">
-
-                {/* Close Button */}
-                <ScrollAnimation direction="up" delay={0.2}>
-                  <div className="text-center">
-                    <motion.div
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                    >
-                      <button
-                        onClick={() => setShowExplore(false)}
-                        className="relative z-50 bg-transparent text-white font-semibold text-lg tracking-wider px-12 py-3 rounded-xl border-2 border-red-500 hover:border-red-400 hover:bg-red-500/10 transition-all duration-300 backdrop-blur-sm"
-                        style={{
-                          borderColor: '#dc2626',
-                          boxShadow: '0 0 20px rgba(220, 38, 38, 0.2), inset 0 0 20px rgba(220, 38, 38, 0.05)',
-                        }}
-                      >
-                        <span className="relative z-10">BACK TO TOP</span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-red-600/10 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                      </button>
-                    </motion.div>
-                  </div>
-                </ScrollAnimation>
-              </div>
-            </motion.section>
-          )}
-        </AnimatePresence>
+        {/* Removed all direct rendering of <VideoGalleryShowcase />. Now handled by routing only. */}
 
         {/* Additional Scroll Content - Timeline appears here when scrolling */}
-        {!showExplore && (
-          <section className="relative z-10 bg-gradient-to-b from-black to-gray-900/95 py-32">
-            <div className="container mx-auto px-8">
-              {/* Timeline Section that appears on scroll */}
-              <ScrollAnimation direction="up" delay={0.2} className="mb-16">
-                <h2 className="text-5xl md:text-7xl font-thin mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
-                  CREATIVE PROCESS
-                </h2>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light text-center mb-16">
-                  Behind every frame lies a story of precision, creativity, and technical mastery
+        <section className="relative z-10 bg-gradient-to-b from-black to-gray-900/95 py-32">
+          <div className="container mx-auto px-8">
+            {/* Timeline Section that appears on scroll */}
+            <ScrollAnimation direction="up" delay={0.2} className="mb-16">
+              <h2 className="text-5xl md:text-7xl font-thin mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
+                CREATIVE PROCESS
+              </h2>
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light text-center mb-16">
+                Behind every frame lies a story of precision, creativity, and technical mastery
+              </p>
+            </ScrollAnimation>
+            
+            <ScrollAnimation direction="down" delay={0.4}>
+              <div className="flex justify-center">
+                <PremiumTimeline className="w-full max-w-5xl" />
+              </div>
+            </ScrollAnimation>
+            
+            {/* Software Section */}
+            <ScrollAnimation direction="up" delay={0.6} className="mt-32">
+              <div className="text-center max-w-6xl mx-auto">
+                <h3 className="text-4xl md:text-5xl font-thin mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
+                  SOFTWARE MASTERY
+                </h3>
+                <p className="text-xl text-gray-300 leading-relaxed mb-16 max-w-3xl mx-auto">
+                  Powered by industry-leading software, every project is crafted with precision 
+                  and professional-grade tools to deliver exceptional results.
                 </p>
-              </ScrollAnimation>
-              
-              <ScrollAnimation direction="down" delay={0.4}>
-                <div className="flex justify-center">
-                  <PremiumTimeline className="w-full max-w-5xl" />
-                </div>
-              </ScrollAnimation>
-              
-              {/* Software Section */}
-              <ScrollAnimation direction="up" delay={0.6} className="mt-32">
-                <div className="text-center max-w-6xl mx-auto">
-                  <h3 className="text-4xl md:text-5xl font-thin mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
-                    SOFTWARE MASTERY
-                  </h3>
-                  <p className="text-xl text-gray-300 leading-relaxed mb-16 max-w-3xl mx-auto">
-                    Powered by industry-leading software, every project is crafted with precision 
-                    and professional-grade tools to deliver exceptional results.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-                    {[
-                      { 
-                        name: "Adobe Premiere Pro", 
-                        desc: "Professional video editing and post-production",
-                        color: "from-purple-500 to-blue-600",
-                        bgColor: "from-purple-500/10 to-blue-600/10",
-                        icon: Monitor
-                      },
-                      { 
-                        name: "DaVinci Resolve", 
-                        desc: "Advanced color grading and visual effects",
-                        color: "from-orange-500 to-red-600",
-                        bgColor: "from-orange-500/10 to-red-600/10",
-                        icon: Palette
-                      },
-                      { 
-                        name: "CapCut", 
-                        desc: "Creative mobile and desktop editing",
-                        color: "from-pink-500 to-purple-600",
-                        bgColor: "from-pink-500/10 to-purple-600/10",
-                        icon: Scissors
-                      }
-                    ].map((software, index) => (
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+                  {[
+                    { 
+                      name: "Adobe Premiere Pro", 
+                      desc: "Professional video editing and post-production",
+                      color: "from-purple-500 to-blue-600",
+                      bgColor: "from-purple-500/10 to-blue-600/10",
+                      icon: Monitor
+                    },
+                    { 
+                      name: "DaVinci Resolve", 
+                      desc: "Advanced color grading and visual effects",
+                      color: "from-orange-500 to-red-600",
+                      bgColor: "from-orange-500/10 to-red-600/10",
+                      icon: Palette
+                    },
+                    { 
+                      name: "CapCut", 
+                      desc: "Creative mobile and desktop editing",
+                      color: "from-pink-500 to-purple-600",
+                      bgColor: "from-pink-500/10 to-purple-600/10",
+                      icon: Scissors
+                    }
+                  ].map((software, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ 
+                        delay: index * 0.2, 
+                        duration: 0.8, 
+                        ease: [0.4, 0, 0.2, 1],
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 15
+                      }}
+                      whileHover={{ 
+                        y: -8, 
+                        scale: 1.05,
+                        transition: { 
+                          duration: 0.3, 
+                          ease: [0.4, 0, 0.2, 1] 
+                        }
+                      }}
+                      className="relative group bg-gradient-to-br from-gray-900/50 to-black/50 border border-red-500/20 rounded-2xl p-8 backdrop-blur-sm overflow-hidden cursor-pointer"
+                    >
+                      {/* Background glow effect */}
                       <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ 
-                          delay: index * 0.2, 
-                          duration: 0.8, 
-                          ease: [0.4, 0, 0.2, 1],
-                          type: "spring",
-                          stiffness: 100,
-                          damping: 15
-                        }}
-                        whileHover={{ 
-                          y: -8, 
-                          scale: 1.05,
-                          transition: { 
-                            duration: 0.3, 
-                            ease: [0.4, 0, 0.2, 1] 
-                          }
-                        }}
-                        className="relative group bg-gradient-to-br from-gray-900/50 to-black/50 border border-red-500/20 rounded-2xl p-8 backdrop-blur-sm overflow-hidden cursor-pointer"
-                      >
-                        {/* Background glow effect */}
-                        <motion.div
-                          className={`absolute inset-0 bg-gradient-to-br ${software.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-2xl`}
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          whileHover={{ scale: 1, opacity: 0.1 }}
-                          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                        />
-                        
-                        {/* Floating particles */}
-                        <div className="absolute inset-0 pointer-events-none">
-                          {Array.from({ length: 3 }).map((_, i) => (
-                            <motion.div
-                              key={i}
-                              className={`absolute w-1 h-1 bg-gradient-to-r ${software.color} rounded-full opacity-0 group-hover:opacity-60`}
-                              style={{
-                                left: `${20 + i * 30}%`,
-                                top: `${20 + i * 20}%`,
-                              }}
-                              animate={{
-                                y: [0, -20, 0],
-                                x: [0, 10, 0],
-                                scale: [0, 1, 0],
-                                opacity: [0, 0.6, 0]
-                              }}
-                              transition={{
-                                duration: 2 + i * 0.5,
-                                repeat: Infinity,
-                                delay: index * 0.3 + i * 0.2,
-                                ease: [0.4, 0, 0.6, 1]
-                              }}
-                            />
-                          ))}
-                        </div>
-                        
-                        {/* Icon with animation */}
-                        <motion.div
-                          className="flex justify-center mb-6"
-                          whileHover={{ 
-                            rotateY: 15,
-                            scale: 1.1,
-                            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-                          }}
-                        >
+                        className={`absolute inset-0 bg-gradient-to-br ${software.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-2xl`}
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        whileHover={{ scale: 1, opacity: 0.1 }}
+                        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                      />
+                      
+                      {/* Floating particles */}
+                      <div className="absolute inset-0 pointer-events-none">
+                        {Array.from({ length: 3 }).map((_, i) => (
                           <motion.div
-                            className={`p-4 rounded-xl bg-gradient-to-br ${software.color}`}
+                            key={i}
+                            className={`absolute w-1 h-1 bg-gradient-to-r ${software.color} rounded-full opacity-0 group-hover:opacity-60`}
+                            style={{
+                              left: `${20 + i * 30}%`,
+                              top: `${20 + i * 20}%`,
+                            }}
                             animate={{
-                              rotateY: [0, 5, 0],
-                              scale: [1, 1.02, 1]
+                              y: [0, -20, 0],
+                              x: [0, 10, 0],
+                              scale: [0, 1, 0],
+                              opacity: [0, 0.6, 0]
                             }}
                             transition={{
-                              duration: 4,
+                              duration: 2 + i * 0.5,
                               repeat: Infinity,
-                              delay: index * 0.5,
+                              delay: index * 0.3 + i * 0.2,
                               ease: [0.4, 0, 0.6, 1]
                             }}
-                          >
-                            <software.icon className="w-8 h-8 text-white" />
-                          </motion.div>
-                        </motion.div>
-                        
-                        {/* Content */}
-                        <motion.h4 
-                          className="text-xl font-semibold mb-3 text-white"
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.2 + 0.3, duration: 0.6 }}
-                        >
-                          {software.name}
-                        </motion.h4>
-                        <motion.p 
-                          className="text-gray-400 leading-relaxed"
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.2 + 0.4, duration: 0.6 }}
-                        >
-                          {software.desc}
-                        </motion.p>
-                        
-                        {/* Hover border effect */}
-                        <motion.div
-                          className="absolute inset-0 rounded-2xl border-2 border-red-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        />
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </ScrollAnimation>
-
-              {/* Reels & TikTok Section */}
-              <ScrollAnimation direction="up" delay={0.8} className="mt-32">
-                <div className="text-center max-w-6xl mx-auto">
-                  <h3 className="text-4xl md:text-5xl font-thin mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
-                    REELS & TIKTOK
-                  </h3>
-                  <p className="text-xl text-gray-300 leading-relaxed mb-16 max-w-3xl mx-auto">
-                    I was in charge of editing content for Reels and TikTok, by cutting 
-                    and arranging clips to fit short durations, adjusting trending 
-                    songs/videos and ensuring the video immediately grabs attention 
-                    within the first 3 seconds.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    {/* Timeline Interface */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -50, scale: 0.95 }}
-                      whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-                      className="relative bg-gradient-to-br from-gray-900/95 to-black/95 border border-red-500/20 rounded-xl overflow-hidden p-6 backdrop-blur-xl"
-                    >
-                      {/* Timeline Header */}
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                          <span className="text-red-400 text-xs font-mono">EDITING</span>
-                        </div>
-                        <div className="text-xs text-gray-400 font-mono">0:15 / 0:30</div>
+                          />
+                        ))}
                       </div>
-
-                      {/* Timeline Tracks */}
-                      <div className="relative h-24 bg-gradient-to-r from-black/60 to-gray-900/60 rounded-lg border border-gray-700/50 overflow-hidden mb-4">
-                        {/* Time markers */}
-                        <div className="absolute top-0 left-0 right-0 h-6 border-b border-gray-600/50">
-                          {Array.from({ length: 6 }).map((_, i) => (
-                            <div
-                              key={i}
-                              className="absolute top-0 w-px h-6 bg-gray-500/70"
-                              style={{ left: `${i * 20}%` }}
-                            >
-                              <span className="absolute -top-5 -left-2 text-xs text-gray-400 font-mono">
-                                {i * 5}s
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Video clips for short-form content */}
-                        <div className="absolute top-6 left-0 right-0 bottom-0">
-                          {[
-                            { id: 1, start: 0, duration: 40, color: "from-purple-500 to-purple-700", type: "Hook", layer: 0 },
-                            { id: 2, start: 5, duration: 80, color: "from-blue-500 to-blue-700", type: "Main", layer: 1 },
-                            { id: 3, start: 0, duration: 85, color: "from-emerald-500 to-emerald-700", type: "Audio", layer: 2 },
-                            { id: 4, start: 70, duration: 15, color: "from-amber-500 to-amber-700", type: "CTA", layer: 0 },
-                          ].map((clip, index) => (
-                            <motion.div
-                              key={clip.id}
-                              className={`absolute h-4 bg-gradient-to-r ${clip.color} rounded-sm border border-white/10 flex items-center justify-center shadow-lg`}
-                              style={{
-                                left: `${clip.start}%`,
-                                width: `${clip.duration}%`,
-                                top: `${clip.layer * 18}px`,
-                              }}
-                              initial={{ opacity: 0, scale: 0.8, x: -20 }}
-                              whileInView={{ 
-                                opacity: 1, 
-                                scale: 1, 
-                                x: 0,
-                              }}
-                              viewport={{ once: true }}
-                              transition={{
-                                delay: index * 0.15,
-                                duration: 0.6,
-                                ease: [0.4, 0, 0.2, 1]
-                              }}
-                              whileHover={{
-                                scale: 1.05,
-                                y: -1,
-                                transition: { duration: 0.2 }
-                              }}
-                            >
-                              <span className="text-white text-xs font-semibold opacity-90">
-                                {clip.type}
-                              </span>
-                            </motion.div>
-                          ))}
-                        </div>
-
-                        {/* Playhead for short content */}
+                      
+                      {/* Icon with animation */}
+                      <motion.div
+                        className="flex justify-center mb-6"
+                        whileHover={{ 
+                          rotateY: 15,
+                          scale: 1.1,
+                          transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+                        }}
+                      >
                         <motion.div
-                          className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-20"
+                          className={`p-4 rounded-xl bg-gradient-to-br ${software.color}`}
                           animate={{
-                            left: ["0%", "85%", "0%"]
+                            rotateY: [0, 5, 0],
+                            scale: [1, 1.02, 1]
                           }}
                           transition={{
                             duration: 4,
                             repeat: Infinity,
+                            delay: index * 0.5,
                             ease: [0.4, 0, 0.6, 1]
                           }}
                         >
-                          <div className="absolute -top-2 -left-1 w-2 h-2 bg-red-500 rotate-45" />
+                          <software.icon className="w-8 h-8 text-white" />
                         </motion.div>
-                      </div>
-
-                      {/* Quick Stats */}
-                      <div className="grid grid-cols-3 gap-4 text-center">
-                        <div>
-                          <div className="text-red-400 text-lg font-bold">3s</div>
-                          <div className="text-xs text-gray-400">Hook Rule</div>
-                        </div>
-                        <div>
-                          <div className="text-red-400 text-lg font-bold">15-30s</div>
-                          <div className="text-xs text-gray-400">Duration</div>
-                        </div>
-                        <div>
-                          <div className="text-red-400 text-lg font-bold">9:16</div>
-                          <div className="text-xs text-gray-400">Aspect</div>
-                        </div>
-                      </div>
+                      </motion.div>
+                      
+                      {/* Content */}
+                      <motion.h4 
+                        className="text-xl font-semibold mb-3 text-white"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.2 + 0.3, duration: 0.6 }}
+                      >
+                        {software.name}
+                      </motion.h4>
+                      <motion.p 
+                        className="text-gray-400 leading-relaxed"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.2 + 0.4, duration: 0.6 }}
+                      >
+                        {software.desc}
+                      </motion.p>
+                      
+                      {/* Hover border effect */}
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl border-2 border-red-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      />
                     </motion.div>
+                  ))}
+                </div>
+              </div>
+            </ScrollAnimation>
 
-                    {/* Mobile Preview */}
-                    <motion.div
-                      initial={{ opacity: 0, x: 50, scale: 0.95 }}
-                      whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                      className="flex justify-center"
-                    >
-                      <div className="relative">
-                        {/* Phone Frame */}
-                        <div className="relative w-64 h-[500px] bg-black rounded-[2.5rem] border-4 border-gray-800 shadow-2xl overflow-hidden">
-                          {/* Status Bar */}
-                          <div className="absolute top-0 left-0 right-0 h-8 bg-black/90 flex items-center justify-between px-6 text-white text-xs">
-                            <span>10:34</span>
-                            <div className="flex items-center gap-1">
-                              <div className="w-4 h-2 border border-white rounded-sm">
-                                <div className="w-3 h-1 bg-white rounded-sm m-0.5" />
-                              </div>
-                              <span>100%</span>
-                            </div>
+            {/* Reels & TikTok Section */}
+            <ScrollAnimation direction="up" delay={0.8} className="mt-32">
+              <div className="text-center max-w-6xl mx-auto">
+                <h3 className="text-4xl md:text-5xl font-thin mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
+                  REELS & TIKTOK
+                </h3>
+                <p className="text-xl text-gray-300 leading-relaxed mb-16 max-w-3xl mx-auto">
+                  I was in charge of editing content for Reels and TikTok, by cutting 
+                  and arranging clips to fit short durations, adjusting trending 
+                  songs/videos and ensuring the video immediately grabs attention 
+                  within the first 3 seconds.
+                </p>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                  {/* Timeline Interface */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50, scale: 0.95 }}
+                    whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                    className="relative bg-gradient-to-br from-gray-900/95 to-black/95 border border-red-500/20 rounded-xl overflow-hidden p-6 backdrop-blur-xl"
+                  >
+                    {/* Timeline Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                        <span className="text-red-400 text-xs font-mono">EDITING</span>
+                      </div>
+                      <div className="text-xs text-gray-400 font-mono">0:15 / 0:30</div>
+                    </div>
+
+                    {/* Timeline Tracks */}
+                    <div className="relative h-24 bg-gradient-to-r from-black/60 to-gray-900/60 rounded-lg border border-gray-700/50 overflow-hidden mb-4">
+                      {/* Time markers */}
+                      <div className="absolute top-0 left-0 right-0 h-6 border-b border-gray-600/50">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                          <div
+                            key={i}
+                            className="absolute top-0 w-px h-6 bg-gray-500/70"
+                            style={{ left: `${i * 20}%` }}
+                          >
+                            <span className="absolute -top-5 -left-2 text-xs text-gray-400 font-mono">
+                              {i * 5}s
+                            </span>
                           </div>
+                        ))}
+                      </div>
 
-                          {/* Video Content Area */}
-                          <div className="absolute top-8 left-0 right-0 bottom-20 bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 flex items-center justify-center">
-                            {/* Simulated Video Content */}
-                            <motion.div
-                              className="w-full h-full bg-gradient-to-br from-red-900/20 to-red-600/20 flex flex-col items-center justify-center relative overflow-hidden"
-                              animate={{
-                                background: [
-                                  "linear-gradient(135deg, rgba(153,27,27,0.2) 0%, rgba(220,38,38,0.2) 100%)",
-                                  "linear-gradient(135deg, rgba(220,38,38,0.2) 0%, rgba(239,68,68,0.2) 100%)",
-                                  "linear-gradient(135deg, rgba(153,27,27,0.2) 0%, rgba(220,38,38,0.2) 100%)"
-                                ]
-                              }}
-                              transition={{ duration: 3, repeat: Infinity }}
-                            >
-                              {/* Profile Info */}
-                              <div className="absolute bottom-4 left-4 right-4">
-                                <div className="flex items-center gap-3 mb-2">
-                                  <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-xs font-bold">VA</span>
-                                  </div>
-                                  <span className="text-white text-sm font-semibold">@vishnuadari</span>
-                                </div>
-                                <p className="text-white text-xs leading-relaxed">
-                                  Crafting visual stories that captivate in seconds ✨
-                                </p>
-                              </div>
+                      {/* Video clips for short-form content */}
+                      <div className="absolute top-6 left-0 right-0 bottom-0">
+                        {[
+                          { id: 1, start: 0, duration: 40, color: "from-purple-500 to-purple-700", type: "Hook", layer: 0 },
+                          { id: 2, start: 5, duration: 80, color: "from-blue-500 to-blue-700", type: "Main", layer: 1 },
+                          { id: 3, start: 0, duration: 85, color: "from-emerald-500 to-emerald-700", type: "Audio", layer: 2 },
+                          { id: 4, start: 70, duration: 15, color: "from-amber-500 to-amber-700", type: "CTA", layer: 0 },
+                        ].map((clip, index) => (
+                          <motion.div
+                            key={clip.id}
+                            className={`absolute h-4 bg-gradient-to-r ${clip.color} rounded-sm border border-white/10 flex items-center justify-center shadow-lg`}
+                            style={{
+                              left: `${clip.start}%`,
+                              width: `${clip.duration}%`,
+                              top: `${clip.layer * 18}px`,
+                            }}
+                            initial={{ opacity: 0, scale: 0.8, x: -20 }}
+                            whileInView={{ 
+                              opacity: 1, 
+                              scale: 1, 
+                              x: 0,
+                            }}
+                            viewport={{ once: true }}
+                            transition={{
+                              delay: index * 0.15,
+                              duration: 0.6,
+                              ease: [0.4, 0, 0.2, 1]
+                            }}
+                            whileHover={{
+                              scale: 1.05,
+                              y: -1,
+                              transition: { duration: 0.2 }
+                            }}
+                          >
+                            <span className="text-white text-xs font-semibold opacity-90">
+                              {clip.type}
+                            </span>
+                          </motion.div>
+                        ))}
+                      </div>
 
-                              {/* Floating Elements */}
-                              {Array.from({ length: 3 }).map((_, i) => (
-                                <motion.div
-                                  key={i}
-                                  className="absolute w-2 h-2 bg-white/30 rounded-full"
-                                  style={{
-                                    left: `${20 + i * 30}%`,
-                                    top: `${30 + i * 20}%`,
-                                  }}
-                                  animate={{
-                                    y: [0, -20, 0],
-                                    opacity: [0.3, 0.8, 0.3],
-                                    scale: [1, 1.2, 1]
-                                  }}
-                                  transition={{
-                                    duration: 2 + i * 0.5,
-                                    repeat: Infinity,
-                                    delay: i * 0.3
-                                  }}
-                                />
-                              ))}
-                            </motion.div>
-                          </div>
+                      {/* Playhead for short content */}
+                      <motion.div
+                        className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-20"
+                        animate={{
+                          left: ["0%", "85%", "0%"],
+                          y: [0, -8, 0, 8, 0], // up at start, down at middle, up at end
+                        }}
+                        transition={{
+                          left: {
+                            duration: 10, // slower movement
+                            repeat: Infinity,
+                            ease: [0.4, 0, 0.6, 1],
+                          },
+                          y: {
+                            duration: 10,
+                            repeat: Infinity,
+                            times: [0, 0.25, 0.5, 0.75, 1],
+                            ease: "easeInOut",
+                          },
+                        }}
+                      >
+                        <div className="absolute -top-2 -left-1 w-2 h-2 bg-red-500 rotate-45" />
+                      </motion.div>
+                    </div>
 
-                          {/* Side Buttons */}
-                          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-6">
-                            {[
-                              { icon: "♥", count: "2.1K" },
-                              { icon: "💬", count: "89" },
-                              { icon: "↗", count: "Share" }
-                            ].map((item, i) => (
-                              <motion.div
-                                key={i}
-                                className="flex flex-col items-center gap-1"
-                                whileHover={{ scale: 1.1 }}
-                                transition={{ duration: 0.2 }}
-                              >
-                                <div className="w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white text-lg backdrop-blur-sm">
-                                  {item.icon}
-                                </div>
-                                <span className="text-white text-xs">{item.count}</span>
-                              </motion.div>
-                            ))}
-                          </div>
+                    {/* Quick Stats */}
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-red-400 text-lg font-bold">3s</div>
+                        <div className="text-xs text-gray-400">Hook Rule</div>
+                      </div>
+                      <div>
+                        <div className="text-red-400 text-lg font-bold">15-30s</div>
+                        <div className="text-xs text-gray-400">Duration</div>
+                      </div>
+                      <div>
+                        <div className="text-red-400 text-lg font-bold">9:16</div>
+                        <div className="text-xs text-gray-400">Aspect</div>
+                      </div>
+                    </div>
+                  </motion.div>
 
-                          {/* Bottom Navigation */}
-                          <div className="absolute bottom-0 left-0 right-0 h-20 bg-black/90 flex items-center justify-center">
-                            <div className="flex items-center gap-8">
-                              {["🏠", "🔍", "➕", "💬", "👤"].map((emoji, i) => (
-                                <motion.div
-                                  key={i}
-                                  className="text-white text-xl"
-                                  whileHover={{ scale: 1.2 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  {emoji}
-                                </motion.div>
-                              ))}
-                            </div>
+                  {/* Mobile Preview */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50, scale: 0.95 }}
+                    whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                    className="flex justify-center"
+                  >
+                    <div className="relative">
+                      {/* Phone Frame */}
+                      <div className="relative w-[320px] h-[650px] rounded-[2.5rem] shadow-2xl bg-black border-[8px] border-neutral-900 overflow-hidden flex flex-col items-center" style={{boxShadow: '0 8px 32px rgba(0,0,0,0.7), 0 1.5px 0 0 #222'}}>
+                        {/* Speaker and Camera */}
+                        <div className="absolute top-3 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+                          <div className="w-16 h-2 bg-neutral-700 rounded-full mb-1" />
+                          <div className="w-4 h-4 bg-neutral-800 rounded-full border-2 border-neutral-600" />
+                        </div>
+                        {/* Status Bar */}
+                        <div className="absolute top-0 left-0 right-0 h-10 flex items-center justify-between px-6 text-white text-xs font-semibold z-20 bg-black/40 rounded-t-[2.5rem]">
+                          <span>10:34</span>
+                          <div className="flex items-center gap-1">
+                            <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="3" width="2" height="6" rx="1" fill="white"/><rect x="4" y="1" width="2" height="8" rx="1" fill="white"/><rect x="7" y="0" width="2" height="9" rx="1" fill="white"/><rect x="10" y="2" width="2" height="7" rx="1" fill="white"/><rect x="13" y="4" width="2" height="5" rx="1" fill="white"/></svg>
+                            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="3" width="14" height="4" rx="2" fill="white"/></svg>
+                            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="2" width="16" height="6" rx="3" fill="white"/><rect x="17" y="4" width="2" height="2" rx="1" fill="white"/></svg>
+                            <span>100%</span>
                           </div>
                         </div>
-
+                        {/* Fullscreen Video Content */}
+                        <div className="absolute top-0 left-0 w-full h-full z-10 flex items-start justify-center">
+                          <video
+                            src="/vishnu-bathroom.mp4"
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              borderRadius: '2.5rem',
+                              background: 'black',
+                            }}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            controls={false}
+                            title="Vishnu Bathroom Reel"
+                          />
+                          {/* Instagram-style Action Icons */}
+                          <div className="absolute bottom-16 right-4 flex flex-col items-center gap-6 z-20 select-none">
+                            <button className="focus:outline-none">
+                              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-lg">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                              </svg>
+                              <div className="text-xs text-white mt-1 font-semibold drop-shadow">1,234</div>
+                            </button>
+                            <button className="focus:outline-none">
+                              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-lg">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                              </svg>
+                              <div className="text-xs text-white mt-1 font-semibold drop-shadow">321</div>
+                            </button>
+                            <button className="focus:outline-none">
+                              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-lg">
+                                <path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"></path>
+                                <polyline points="16 6 12 2 8 6"></polyline>
+                                <line x1="12" y1="2" x2="12" y2="15"></line>
+                              </svg>
+                              <div className="text-xs text-white mt-1 font-semibold drop-shadow">Share</div>
+                            </button>
+                          </div>
+                        </div>
                         {/* Phone Glow Effect */}
                         <motion.div
                           className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/20 rounded-[2.5rem] blur-xl -z-10"
@@ -1385,89 +1314,82 @@ const CinematicPortfolio: React.FC = () => {
                           }}
                         />
                       </div>
-                    </motion.div>
-                  </div>
+                    </div>
+                  </motion.div>
                 </div>
-              </ScrollAnimation>
-            </div>
+              </div>
+            </ScrollAnimation>
           </section>
-        )}
+        )
 
         {/* Contact Section */}
-        {!showExplore && (
-          <section data-contact-section className="relative z-10 bg-gradient-to-b from-gray-900/95 to-black py-32">
-            <div className="container mx-auto px-8">
-              <ScrollAnimation direction="up" delay={0.2}>
-                <div className="text-center max-w-4xl mx-auto">
-                  <h2 className="text-5xl md:text-7xl font-thin mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
-                    LET'S CREATE
-                  </h2>
-                  <p className="text-xl text-gray-300 leading-relaxed mb-12">
-                    Ready to transform your vision into reality? Let's collaborate and create something extraordinary 
-                    that resonates with your audience and stands the test of time.
-                  </p>
-                  
-                  <motion.div
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+        <section data-contact-section className="relative z-10 bg-gradient-to-b from-gray-900/95 to-black py-32">
+          <div className="container mx-auto px-8">
+            <ScrollAnimation direction="up" delay={0.2}>
+              <div className="text-center max-w-4xl mx-auto">
+                <h2 className="text-5xl md:text-7xl font-thin mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-red-600">
+                  LET'S CREATE
+                </h2>
+                <p className="text-xl text-gray-300 leading-relaxed mb-12">
+                  Ready to transform your vision into reality? Let's collaborate and create something extraordinary 
+                  that resonates with your audience and stands the test of time.
+                </p>
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                >
+                  <button
+                    onClick={() => {
+                      window.open('mailto:contact@vishnuadari.com', '_blank');
+                    }}
+                    className="relative z-50 bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:from-red-700 hover:via-red-800 hover:to-red-900 text-white font-semibold text-lg tracking-wider px-16 py-4 rounded-xl shadow-2xl border-2 border-red-500/30 hover:border-red-400/50 transition-all duration-300 backdrop-blur-sm min-w-[250px] h-[60px] flex items-center justify-center"
+                    style={{
+                      background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)',
+                      boxShadow: '0 10px 30px rgba(220, 38, 38, 0.3), 0 0 0 1px rgba(220, 38, 38, 0.1)',
+                    }}
                   >
-                    <button
-                      onClick={() => {
-                        // Add contact functionality here
-                        window.open('mailto:contact@vishnuadari.com', '_blank');
-                      }}
-                      className="relative z-50 bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:from-red-700 hover:via-red-800 hover:to-red-900 text-white font-semibold text-lg tracking-wider px-16 py-4 rounded-xl shadow-2xl border-2 border-red-500/30 hover:border-red-400/50 transition-all duration-300 backdrop-blur-sm min-w-[250px] h-[60px] flex items-center justify-center"
-                      style={{
-                        background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)',
-                        boxShadow: '0 10px 30px rgba(220, 38, 38, 0.3), 0 0 0 1px rgba(220, 38, 38, 0.1)',
-                      }}
-                    >
-                      <span className="relative z-10">START A PROJECT</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/20 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                    </button>
-                  </motion.div>
-                  
-                  {/* Contact Information */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ delay: 0.3, duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                    className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8"
-                  >
-                    <div className="text-center">
-                      <h4 className="text-red-400 font-light text-lg mb-2">Email</h4>
-                      <p className="text-gray-300">contact@vishnuadari.com</p>
-                    </div>
-                    <div className="text-center">
-                      <h4 className="text-red-400 font-light text-lg mb-2">Phone</h4>
-                      <p className="text-gray-300">+1 (555) 123-4567</p>
-                    </div>
-                    <div className="text-center">
-                      <h4 className="text-red-400 font-light text-lg mb-2">Location</h4>
-                      <p className="text-gray-300">Available Worldwide</p>
-                    </div>
-                  </motion.div>
-                </div>
-              </ScrollAnimation>
-            </div>
-          </section>
-        )}
+                    <span className="relative z-10">START A PROJECT</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/20 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                  </button>
+                </motion.div>
+                {/* Contact Information */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ delay: 0.3, duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                  className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8"
+                >
+                  <div className="text-center">
+                    <h4 className="text-red-400 font-light text-lg mb-2">Email</h4>
+                    <p className="text-gray-300">contact@vishnuadari.com</p>
+                  </div>
+                  <div className="text-center">
+                    <h4 className="text-red-400 font-light text-lg mb-2">Phone</h4>
+                    <p className="text-gray-300">+1 (555) 123-4567</p>
+                  </div>
+                  <div className="text-center">
+                    <h4 className="text-red-400 font-light text-lg mb-2">Location</h4>
+                    <p className="text-gray-300">Available Worldwide</p>
+                  </div>
+                </motion.div>
+              </div>
+            </ScrollAnimation>
+          </div>
+        </section>
 
         {/* Footer */}
-        {!showExplore && (
-          <motion.footer 
-            className="p-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-          >
-            <div className="text-center text-gray-500 text-sm font-light tracking-wide">
-              © 2024 Vishnu Adari. All rights reserved.
-            </div>
-          </motion.footer>
-        )}
+        <motion.footer 
+          className="p-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+        >
+          <div className="text-center text-gray-500 text-sm font-light tracking-wide">
+            © 2024 Vishnu Adari. All rights reserved.
+          </div>
+        </motion.footer>
       </div>
 
       {/* Ambient Particles */}
