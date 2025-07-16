@@ -283,7 +283,6 @@ const ScrollAnimation: React.FC<ScrollAnimationProps> = ({
         filter: 'blur(0px)',
         opacity: 1,
         [axis]: 0,
-
         scale: 1,
         transition: {
           duration: 0.6,
@@ -666,7 +665,6 @@ const CinematicPortfolio: React.FC = () => {
         className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-600 via-red-500 to-red-400 z-50 origin-left"
         style={{ scaleX }}
       />
-
 
       {/* Dynamic Background */}
       <motion.div 
