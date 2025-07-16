@@ -1319,8 +1319,8 @@ const CinematicPortfolio: React.FC = () => {
                 </div>
               </div>
             </ScrollAnimation>
-          </section>
-        )
+          </div>
+        </section>
 
         {/* Contact Section */}
         <section data-contact-section className="relative z-10 bg-gradient-to-b from-gray-900/95 to-black py-32">
